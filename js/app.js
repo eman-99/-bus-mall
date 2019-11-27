@@ -1,4 +1,6 @@
 'use strict';
+
+
 var imgs = [
     "bag", "banana",
     "bathroom", "boots",
@@ -10,6 +12,9 @@ var imgs = [
     "sweep", "tauntaun",
     "unicorn", "usb",
     "water-can", "wine-glass"];
+
+var votesA = [];
+var viewsA = [];
 
 var counter = 0;
 
@@ -51,6 +56,7 @@ function render() {
 
 
 
+
     leftImage.setAttribute("src", leftImg.imagePath);
     leftImage.setAttribute("alt", leftImg.name);
     leftImage.setAttribute("title", leftImg.name);
@@ -85,17 +91,69 @@ function list() {
         var liEl = document.createElement("li");
         ulEl.appendChild(liEl);
         liEl.textContent = `${imgs[i]} had ${weirdPic.all[i].votes}votes and was shown ${weirdPic.all[i].views} times`;
-    }
 
+
+        viewsA.push(weirdPic.all[i].views);
+
+
+        votesA.push(weirdPic.all[i].votes);
 
 
 }
+
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: imgs,
+    datasets: [
+      {
+        label: '# of Votes',
+        data: votesA,
+        backgroundColor:
+          'black'
+        ,
+
+        borderWidth: 1
+      },
+      ///////
+      {
+        label: '# of Views',
+        data: viewsA,
+        backgroundColor:
+          'pink'
+        ,
+
+        borderWidth: 1
+      }
+
+      ///////
+    ]
+  },
+  options: {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true
+          }
+        }
+      ]
+    }
+  }
+});
+
+};
+
+
+   
 
 function click(e) {
     if (counter <= 25) {
         console.log(event.target.id);
 
-        
+
         if (e.target.id !== "imagSect") {
 
             for (let i = 0; i < weirdPic.all.length; i++) {
@@ -107,17 +165,17 @@ function click(e) {
             }
             console.table(weirdPic.all);
             render();
-           
+
 
         }
-        if (counter === 26 ){
+        if (counter === 26) {
             list();
         };
-       
-    }
-    
 
-  
+    }
+
+
+
 };
 
 imagSect.addEventListener("click", click);
