@@ -170,6 +170,7 @@ function click(e) {
         }
         if (counter === 26) {
             list();
+            saveVotes();
         };
 
     }
@@ -177,6 +178,7 @@ function click(e) {
 
 
 };
+haveVotes();
 
 imagSect.addEventListener("click", click);
 
@@ -188,17 +190,21 @@ function randomNumber(min, max) {
 
 
 
-// function stopE (event){
-//     if (counter <= 25) {
-//       if (event.target.id !== 'imagSect') {
-//         for (let i = 0; i < weirdPic.all.length; i++) {
-//           if (event.target.title === weirdPic.all[i].name) {
-//             weirdPic.all[i].votes++;
-//           }
 
 
-//         }
-//         render();
-//       } if (counter ===26 ) {
-//         list();}
-//       }
+
+function saveVotes(){
+  var view = JSON.stringify(weirdPic.all);
+  localStorage.setItem('countvote', view);
+}
+
+
+function haveVotes(){
+  var vote = localStorage.getItem('countVote');
+  if (vote){
+    weirdPic.all=JSON.parse(vote);
+    render();
+  }
+}
+
+
